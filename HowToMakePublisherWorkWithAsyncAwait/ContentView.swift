@@ -25,8 +25,13 @@ struct ContentView: View {
     var body: some View {
         Text("Number: " + number)
             .font(.headline)
-            .onReceive(numberPublisher) { newNumber in
-                number = newNumber ?? ""
+//            .onReceive(numberPublisher) { newNumber in
+//                number = newNumber ?? ""
+//            }
+            .task {
+                for await newNumber in numberPublisher.values {
+                    number = newNumber ?? ""
+                }
             }
     }
 }
